@@ -108,6 +108,5 @@ public class PlayerMovementScript : MonoBehaviour
         yield return new WaitForSeconds(movement_Cooldown);
         RandomEnemyEncounter();
         user_can_Move = true;
-        user_Found_Random_Enemy = false;
     }
 }
