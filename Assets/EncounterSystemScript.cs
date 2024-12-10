@@ -5,10 +5,12 @@ using UnityEngine;
 public class EncounterSystemScript : MonoBehaviour
 {
     [SerializeField] private PlayerMovementScript pm;
+    
+    public GameObject battleUI;       // The Battle UI GameObject
+    public GameObject enemyPrefab;    // The Enemy prefab to spawn
+    public Transform enemySpawnPoint; // The spawn point for the enemy
 
-    public GameObject battleUI; // The Battle UI GameObject
-
-    private bool isInBattle = false; // Flag to prevent multiple encounters at once
+    private bool isInBattle = false;  // Flag to prevent multiple encounters at once
 
     void Awake()
     {
@@ -19,23 +21,30 @@ public class EncounterSystemScript : MonoBehaviour
 
     void Update()
     {
-        if (pm.user_Found_Random_Enemy)
+        if (pm.user_Found_Random_Enemy && !isInBattle)
             TriggerBattle();
     }
 
     void TriggerBattle()
     {
-        // Trigger the battle UI
+        Debug.Log("Battle triggered!");
+
+        // Show the battle UI
         battleUI.SetActive(true);
+
+        // Spawn the enemy at the specified spawn point
+        Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
 
         // Set the flag to prevent multiple encounters at once
         isInBattle = true;
     }
 
-    // This method will be called to reset the battle flag once the battle ends
+    // Method to end the battle and reset the state
     public void EndBattle()
     {
         battleUI.SetActive(false); // Hide the battle UI
-        isInBattle = false; // Allow future encounters
+        isInBattle = false;        // Allow future encounters
+        pm.user_Found_Random_Enemy = false; // Reset encounter flag in PlayerMovementScript
     }
 }
+
