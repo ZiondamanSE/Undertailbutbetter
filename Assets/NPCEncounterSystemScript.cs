@@ -11,6 +11,7 @@ public class NPCEncounterSystemScript : MonoBehaviour
 
     void Awake()
     {
+        pm.not_In_Screen = false;
         npc_Chatting_Window.SetActive(false);
         if (pm == null)
             pm = GetComponent<PlayerMovementScript>();
@@ -22,13 +23,14 @@ public class NPCEncounterSystemScript : MonoBehaviour
         if (pm.int_NPC)
         {
             npc_Chatting_Window.SetActive(true);
-            pm.not_In_Screen = false;
+            pm.not_In_Screen = true;
         }
 
         if (npc_Chatting_Window && Input.GetKey(KeyCode.Escape))
         {
             npc_Chatting_Window.SetActive(false);
-            pm.not_In_Screen = true;
+            pm.not_In_Screen = false;
+            pm.int_NPC = false;
         }
     }
 }

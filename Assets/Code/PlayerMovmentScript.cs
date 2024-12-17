@@ -48,13 +48,16 @@ public class PlayerMovementScript : MonoBehaviour
     void Update()
     {
         PlayerInput();
-        if (user_can_Move && !not_In_Screen)
+        if (!not_In_Screen)
         {
-            PlayerMovement();
-        }
-        if (!user_can_Move && !not_In_Screen)
-        {
-            transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movement_Speed);
+            if (user_can_Move)
+            {
+                PlayerMovement();
+            }
+            if (!user_can_Move)
+            {
+                transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movement_Speed);
+            }
         }
     }
 
@@ -95,7 +98,10 @@ public class PlayerMovementScript : MonoBehaviour
         else if (user_Vertical_Input < 0 && (hit_down.collider == null || !hit_down.collider.CompareTag("wall")) && (hit_down.collider == null || !hit_down.collider.CompareTag("npc")))
             newPosition.y -= stepping_Distens;
 
-        if (hit_down.collider.CompareTag("npc") || hit_left.collider.CompareTag("npc") || hit_right.collider.CompareTag("npc") || hit_up.collider.CompareTag("npc")) // if there is an npc near
+        if ((hit_down.collider != null && hit_down.collider.CompareTag("npc")) ||
+            (hit_left.collider != null && hit_left.collider.CompareTag("npc")) ||
+            (hit_right.collider != null && hit_right.collider.CompareTag("npc")) ||
+            (hit_up.collider != null && hit_up.collider.CompareTag("npc")))
         {
             Debug.Log("player found npc");
             InteractiveNPC();
