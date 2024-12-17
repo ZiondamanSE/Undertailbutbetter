@@ -7,8 +7,8 @@ public class EncounterSystemScript : MonoBehaviour
     [SerializeField] private PlayerMovementScript pm;
     
     public GameObject battleUI;       // The Battle UI GameObject
-    public GameObject enemyPrefab;    // The Enemy prefab to spawn
-    public Transform enemySpawnPoint; // The spawn point for the enemy
+    public GameObject enemyPrefab;    // The Enemy prefab to spawn (should have a RectTransform)
+    public RectTransform enemySpawnPoint; // The spawn point for the enemy (inside the Battle UI)
 
     private bool isInBattle = false;  // Flag to prevent multiple encounters at once
 
@@ -32,8 +32,12 @@ public class EncounterSystemScript : MonoBehaviour
         // Show the battle UI
         battleUI.SetActive(true);
 
-        // Spawn the enemy at the specified spawn point
-        Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
+        // Spawn the enemy as a child of the Battle UI
+        GameObject enemyInstance = Instantiate(enemyPrefab, enemySpawnPoint.position, Quaternion.identity);
+        enemyInstance.transform.SetParent(battleUI.transform, false);
+
+        // Set the enemy's anchored position to match the spawn point's anchored position
+        enemyInstance.GetComponent<RectTransform>().anchoredPosition = enemySpawnPoint.anchoredPosition;
 
         // Set the flag to prevent multiple encounters at once
         isInBattle = true;
@@ -45,6 +49,11 @@ public class EncounterSystemScript : MonoBehaviour
         battleUI.SetActive(false); // Hide the battle UI
         isInBattle = false;        // Allow future encounters
         pm.user_Found_Random_Enemy = false; // Reset encounter flag in PlayerMovementScript
+
+        // Optional: Destroy all children of the battle UI to clean up spawned enemies
+        foreach (Transform child in battleUI.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
-

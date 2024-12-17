@@ -11,5 +11,25 @@ public class EnemyScript : MonoBehaviour
     {
         Debug.Log($"{enemyName} has appeared with {health} HP!");
     }
-}
 
+    // Method to apply damage to the enemy
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log($"{enemyName} took {damage} damage! Remaining HP: {health}");
+
+        // Check if the enemy's health has dropped to zero or below
+        if (health <= 0)
+        {
+            Die();
+        }
+    }
+
+    // Handle enemy defeat
+    void Die()
+    {
+        Debug.Log($"{enemyName} has been defeated!");
+        // Destroy the enemy GameObject
+        Destroy(gameObject);
+    }
+}
