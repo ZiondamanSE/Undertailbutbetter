@@ -273,7 +273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &168442763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49800,28 +49800,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textTriggers:
   - textDisplay: {fileID: 2013522012}
-    customString: '... '
+    customString: fagget
     npcArt: {fileID: 7832304015989520389, guid: 8117a7dfa6286ed49a5df8aed47b9c0e, type: 3}
+    letterDelay: 1
   - textDisplay: {fileID: 2013522012}
     customString: O HELLO THERE
     npcArt: {fileID: 5025804393909323130, guid: b10fb77342fc65d48ae61c28df6d606d, type: 3}
+    letterDelay: 0.05
   - textDisplay: {fileID: 2013522012}
     customString: you want drugs
     npcArt: {fileID: 3265448353267363201, guid: 2ef00cdd05e65214096e6b756f7bf63a, type: 3}
+    letterDelay: 0.05
   - textDisplay: {fileID: 2013522012}
     customString: are you a cop?
     npcArt: {fileID: 3265448353267363201, guid: 2ef00cdd05e65214096e6b756f7bf63a, type: 3}
+    letterDelay: 0.2
   - textDisplay: {fileID: 2013522012}
     customString: you... you are one
     npcArt: {fileID: 7832304015989520389, guid: 8117a7dfa6286ed49a5df8aed47b9c0e, type: 3}
+    letterDelay: 0.01
   - textDisplay: {fileID: 2013522012}
     customString: drugs? i said ducks. go a way sir
     npcArt: {fileID: 1184968325184473337, guid: 67635b21bdcd2af449737ea559599c1d, type: 3}
+    letterDelay: 0.05
   pm: {fileID: 1166903296}
-  npc_Chatting_Window: {fileID: 168442762}
+  npcChattingWindow: {fileID: 168442762}
   npcChatbox: {fileID: 168442768}
   npcArtSpawnParent: {fileID: 326543707}
-  letterDelay: 0.01
 --- !u!1 &1004281651
 GameObject:
   m_ObjectHideFlags: 0
