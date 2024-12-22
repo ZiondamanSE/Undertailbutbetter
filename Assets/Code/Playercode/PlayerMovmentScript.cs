@@ -102,10 +102,17 @@ public class PlayerMovementScript : MonoBehaviour
         else if (user_Vertical_Input < 0 && (hit_down.collider == null || !hit_down.collider.CompareTag("wall")) && (hit_down.collider == null || !hit_down.collider.CompareTag("npc")))
             newPosition.y -= stepping_Distens;
 
+        // Smoothly move the player towards the target position
+        if (newPosition != transform.position)
+        {
+            StartCoroutine(MovementCooldown());
+        }
+
         if ((hit_down.collider != null && hit_down.collider.CompareTag("npc")) ||
             (hit_left.collider != null && hit_left.collider.CompareTag("npc")) ||
             (hit_right.collider != null && hit_right.collider.CompareTag("npc")) ||
-            (hit_up.collider != null && hit_up.collider.CompareTag("npc")))
+            (hit_up.collider != null && hit_up.collider.CompareTag("npc")) 
+            )
         {
             Debug.Log("player found npc");
             InteractiveNPC();
@@ -113,13 +120,6 @@ public class PlayerMovementScript : MonoBehaviour
         }
         else
             player_Next_to_NPC = false;
-
-
-        // Smoothly move the player towards the target position
-        if (newPosition != transform.position)
-        {
-            StartCoroutine(MovementCooldown());
-        }
     }
 
     void RandomEnemyEncounter()
