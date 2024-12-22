@@ -49827,6 +49827,9 @@ MonoBehaviour:
   npcChattingWindow: {fileID: 168442762}
   npcChatbox: {fileID: 168442768}
   npcArtSpawnParent: {fileID: 326543707}
+  spriteRendererIntIcon: {fileID: 0}
+  colorIntIcon: {r: 0, g: 0, b: 0, a: 0}
+  interactive_prompt: {fileID: 1869490791}
 --- !u!1 &1004281651
 GameObject:
   m_ObjectHideFlags: 0
@@ -50177,7 +50180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   int_NPC: 0
   not_In_Screen: 0
-  interactive_icon: {fileID: 1869490791}
+  player_Next_to_NPC: 0
   stepping_Distens: 1
   movement_Speed: 10
   movement_Cooldown: 0.5

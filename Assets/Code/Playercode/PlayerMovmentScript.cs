@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEditor.XR;
 using UnityEngine;
@@ -14,7 +15,7 @@ public class PlayerMovementScript : MonoBehaviour
     private bool wall_Infront_of_Player;
     [HideInInspector] public bool int_NPC; // interact with the npc 
     [HideInInspector] public bool not_In_Screen;
-    public GameObject interactive_icon;
+    [HideInInspector] public bool player_Next_to_NPC;
 
     public float stepping_Distens;
     public float movement_Speed;
@@ -40,7 +41,8 @@ public class PlayerMovementScript : MonoBehaviour
 
     private void Awake()
     {
-        interactive_icon.SetActive(false);
+        player_Next_to_NPC = false;
+
         if (encounter_Enemy_value < encounter_Rainge.x || encounter_Enemy_value > encounter_Rainge.y)
             Debug.LogError("Encounter_Enemy_value out of Range. there will be no Encouter!");
         if (encounter_Rainge.x == encounter_Rainge.y)
@@ -105,12 +107,12 @@ public class PlayerMovementScript : MonoBehaviour
             (hit_right.collider != null && hit_right.collider.CompareTag("npc")) ||
             (hit_up.collider != null && hit_up.collider.CompareTag("npc")))
         {
-            interactive_icon.SetActive(true);
             Debug.Log("player found npc");
             InteractiveNPC();
+            player_Next_to_NPC = true;
         }
         else
-            interactive_icon.SetActive(false);
+            player_Next_to_NPC = false;
 
 
         // Smoothly move the player towards the target position

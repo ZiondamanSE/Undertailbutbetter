@@ -1,35 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
-/*
-Dialogue Class:
-    Holds NPC text, custom strings, and art prefab references.
-
-NPCEncounterSystemScript:
-
-    Initialization:
-        Awake: Sets up NPC chatting UI and initializes PlayerMovementScript reference.
-
-    Input Handling:
-        Update: Checks for NPC interaction and user input to proceed dialogue.
-
-    Dialogue Control:
-        StartDialogue: Initiates dialogue sequence.
-        DisplayDialogue: Displays NPC text and art.
-        NextDialogue: Advances to the next dialogue or ends the conversation.
-
-    Typing Effect:
-        TypeSentence: Gradually types out text.
-        FinishCurrentSentence: Skips to complete text immediately.
-
-    Art Management:
-        SpawnNpcArt: Handles NPC art display.
-
-    Ending Dialogue:
-        EndDialogue: Closes the dialogue window and resets states.
-
-*/
+using UnityEngine.UIElements.Experimental;
 
 
 [System.Serializable] // Ensures Dialogue class is serializable in Inspector
@@ -48,29 +22,54 @@ public class NPCEncounterSystemScript : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private PlayerMovementScript pm;
+
+    [Space]
+
     [SerializeField] private GameObject npcChattingWindow;
     [SerializeField] private NPCChatbox npcChatbox;
     [SerializeField] private Transform npcArtSpawnParent; // Parent Transform within Canvas (UI)
 
+    [Space]
+
     private bool isChatting = false;
     private int currentDialogueIndex = 0;
-
     private bool isTyping = false;
     private Coroutine typingCoroutine;
     private GameObject currentNpcArtInstance; // Tracks the currently spawned NPC art
 
+    public SpriteRenderer spriteRendererIntIcon;
+    public UnityEngine.Color colorIntIcon;
+    public GameObject interactive_prompt;
+
     void Awake()
     {
+        spriteRendererIntIcon = interactive_prompt.GetComponent<SpriteRenderer>();
+
+        colorIntIcon.a = 0f; // setting transparanciy to 0;
+        colorIntIcon.r = 1f; // setting to defult color
+        colorIntIcon.g = 1f;
+        colorIntIcon.b = 1f;
+        spriteRendererIntIcon.color = colorIntIcon;
+
         npcChattingWindow.SetActive(false);
         if (pm == null)
             pm = GetComponent<PlayerMovementScript>();
     }
 
+
     void Update()
     {
-        if (pm.int_NPC && !isChatting)
-            StartDialogue();
+        if (pm.player_Next_to_NPC) // checking if the player is near 1 is true 2 is false
+            interactiveAni(1);
+        else if (!pm.player_Next_to_NPC)
+            interactiveAni(2);
 
+        if (pm.int_NPC && !isChatting)
+        {
+            interactive_prompt.SetActive(true);
+            interactiveAni(1);
+            StartDialogue();
+        }
         if (isChatting && Input.GetKeyDown(KeyCode.E))
         {
             if (isTyping)
@@ -95,6 +94,28 @@ public class NPCEncounterSystemScript : MonoBehaviour
         DisplayDialogue();
     }
 
+    void interactiveAni(int fashing)
+    {
+        Debug.Log("fading");
+        if (colorIntIcon.a != 1f && fashing == 1) // fading in
+        {
+            //Debug.Log("fading in");
+            colorIntIcon.a += 0.01f;
+            spriteRendererIntIcon.color = colorIntIcon;
+        }
+
+        if (colorIntIcon.a != 0f && fashing == 2) // fading out
+        {
+            //Debug.Log("fading out");
+            colorIntIcon.a -= 0.01f;
+            spriteRendererIntIcon.color = colorIntIcon;
+        }
+        
+        if (colorIntIcon.a < 0) // stoping overdrive of value
+            colorIntIcon.a = 0;
+        if (colorIntIcon.a > 1)
+            colorIntIcon.a = 1;
+    }
     void DisplayDialogue()
     {
         if (currentDialogueIndex < textTriggers.Count)
