@@ -51322,14 +51322,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ness: {fileID: 936529469}
+  pm: {fileID: 0}
   textDisplay: {fileID: 1441409079}
   fadeTime: 10
+  costomText: Megaman needs you
+  useCostom: 1
   orbitingCenter: {fileID: 1176534012}
   targetPoint: {fileID: 667858011}
   pointer: {fileID: 1612474214}
   radius: 0.6
   rotationSpeed: 90
   moveSpeed: 3
+  marker_A: {x: 1.5, y: 1.5, z: 0}
+  marker_B: {x: 5.5, y: 5.5, z: 0}
 --- !u!4 &1787817432
 Transform:
   m_ObjectHideFlags: 0

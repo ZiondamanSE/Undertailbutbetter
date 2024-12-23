@@ -8,20 +8,28 @@ public class UI_QestMonitor : MonoBehaviour
     [SerializeField] public NPCEncounterSystemScript ness;
     [SerializeField] private PlayerMovementScript pm;
     [SerializeField] public TMP_Text textDisplay; // Reference to the Text component
-
+    [Space]
     public float fadeTime;
-
+    public string costomText;
+    public bool useCostom;
+    [Space]
     public Transform orbitingCenter; // The point around which the marker orbits.
     public Transform targetPoint;    // The point the marker should point toward.
     public GameObject pointer;
+    [Space]
     public float radius = 5f;        // Distance from the orbiting center.
     public float rotationSpeed = 90f; // Degrees per second.
     public float moveSpeed = 2f;     // Speed at which the marker moves toward the target.
+    [Space]
+    public Vector3 marker_A;
+    public Vector3 marker_B;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        targetPoint.position = marker_A;
+
         pointer.SetActive(false);
 
         if (ness == null) 
@@ -35,13 +43,18 @@ public class UI_QestMonitor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*
-        if(!pm.player_Next_to_NPC)
+        if (useCostom)
+        {
             QestManiger(true, "Speak to the boss");
-        else if (pm.player_Next_to_NPC)
-            QestManiger(false, "");*/
+            if (ness.activeQest)
+                useCostom = false;
+        }
+        else
+        {
+            targetPoint.position = marker_B;
+            QestManiger(ness.activeQest, ness.qestJob);
+        }
 
-        QestManiger(ness.activeQest, ness.qestJob);
     }
 
     void QestManiger(bool thereIsQest, string theQest) // UI ELEMENET
