@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements.Experimental;
 
@@ -40,6 +41,10 @@ public class NPCEncounterSystemScript : MonoBehaviour
     public SpriteRenderer spriteRendererIntIcon;
     public UnityEngine.Color colorIntIcon;
     public GameObject interactive_prompt;
+
+    [Header("Qest")]
+    [HideInInspector] public bool activeQest;
+    public string qestJob;
 
     void Awake()
     {
@@ -190,6 +195,7 @@ public class NPCEncounterSystemScript : MonoBehaviour
     {
         npcChatbox.Down();
         StartCoroutine(CloseWindowAfterDelay());
+        activeQest = true;
     }
 
     IEnumerator CloseWindowAfterDelay()
