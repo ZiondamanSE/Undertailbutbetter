@@ -3,12 +3,13 @@ using UnityEngine.UI;
 
 public class AttackSystem : MonoBehaviour
 {
-    public GameObject attackBox;         // The attack box UI panel
-    public Slider attackSlider;          // The slider representing the timing bar
-    public float sliderSpeed = 2f;       // Speed at which the slider moves
-    public Button fightButton;           // The Fight button to initiate the attack
     public EnemyScript currentEnemy;     // The current enemy to attack
+    public Slider attackSlider;          // The slider representing the timing bar
+    public Button fightButton;           // The Fight button to initiate the attack
+    public GameObject attackBox;         // The attack box UI panel
 
+    public float sliderSpeed = 2f;       // Speed at which the slider moves
+    public int player_Damage = 0;
     private float hitPosition;
     private bool isAttacking = false;    // Is the attack currently happening?
 
@@ -79,27 +80,27 @@ public class AttackSystem : MonoBehaviour
         Debug.Log($"[AttackSystem] Attack stopped at hitPosition: {hitPosition}");
 
         // Determine the hit zone and assign damage accordingly
-        int damage = 0;
-        if (hitPosition >= 0.45f && hitPosition <= 0.55f)
+        
+        if (hitPosition >= 0.45f && hitPosition <= 0.66f)
         {
             Debug.Log("[AttackSystem] Weekhit! (Yellow Zone)");
-            damage = 5; // High damage for a perfect hit
+            player_Damage = 5; // High damage for a perfect hit
         }
-        else if (hitPosition >= 0.55f && hitPosition <= 0.75f)
+        else if (hitPosition >= 0.66f && hitPosition <= 0.80f)
         {
-            damage = 10; // Medium damage for a good hit
+            player_Damage = 10; // Medium damage for a good hit
 
             Debug.Log("[AttackSystem] Good Hit! (Green Zone)");
         }
         else if (hitPosition >= 0.80f && hitPosition <= 0.90f)
         {
-            damage = 20; // Medium damage for a good hit
+            player_Damage = 20; // Medium damage for a good hit
 
             Debug.Log("[AttackSystem] Amazing Hit! (Blue Zone)");
         }
         else if (hitPosition >= 0.90f && hitPosition <= 0.95f)
         {
-            damage = 30; // Medium damage for a good hit
+            player_Damage = 30; // Medium damage for a good hit
 
             Debug.Log("[AttackSystem] Perfict Hit! (Perpule Zone)");
         }
@@ -109,16 +110,16 @@ public class AttackSystem : MonoBehaviour
             Debug.Log("[AttackSystem] Missed! (Red Zone)");
         }
 
-        Debug.Log($"[AttackSystem] Damage dealt: {damage}");
+        Debug.Log($"[AttackSystem] Damage dealt: {player_Damage}");
 
         // Apply damage to the current enemy
-        if (damage > 0)
+        if (player_Damage > 0)
         {
-            currentEnemy.TakeDamage(damage);
+            currentEnemy.TakeDamage(player_Damage);
         }
         else
         {
-            Debug.Log($"[AttackSystem] {currentEnemy.enemyName} dodged the attack!");
+            Debug.Log($"[AttackSystem] {currentEnemy.curentname} dodged the attack!");
         }
     }
 }

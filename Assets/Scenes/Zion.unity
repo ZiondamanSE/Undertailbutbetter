@@ -327,7 +327,7 @@ RectTransform:
   m_Father: {fileID: 63561033}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -584,6 +584,7 @@ Transform:
   - {fileID: 1787817432}
   - {fileID: 381015620}
   - {fileID: 1780399974}
+  - {fileID: 932310571}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &326543706
@@ -49369,7 +49370,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &526257319
 RectTransform:
   m_ObjectHideFlags: 0
@@ -49693,6 +49694,78 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 744619686}
   m_CullTransparentMesh: 1
+--- !u!1 &932310570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 932310571}
+  - component: {fileID: 932310572}
+  m_Layer: 0
+  m_Name: Enemie Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &932310571
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932310570}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 314140247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &932310572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932310570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a52f4f84cbf14646ab88f3ec5452f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Enemies:
+  - EnemyPrefab: {fileID: 0}
+    Health: 0
+    Damage: 0
+    DodgeRate: 0
+    EnemyName: david
+  - EnemyPrefab: {fileID: 0}
+    Health: 0
+    Damage: 0
+    DodgeRate: 0
+    EnemyName: sam
+  - EnemyPrefab: {fileID: 0}
+    Health: 0
+    Damage: 0
+    DodgeRate: 0
+    EnemyName: max
+  - EnemyPrefab: {fileID: 0}
+    Health: 0
+    Damage: 0
+    DodgeRate: 0
+    EnemyName: nilson
+  - EnemyPrefab: {fileID: 0}
+    Health: 0
+    Damage: 0
+    DodgeRate: 0
+    EnemyName: jahovas
+  dialogManager: {fileID: 631929482}
+  spawnpoint: {fileID: 0}
 --- !u!1 &936529466
 GameObject:
   m_ObjectHideFlags: 0
@@ -50083,7 +50156,7 @@ MonoBehaviour:
   user_Found_Random_Enemy: 0
   encounter_Rainge: {x: 1, y: 1}
   encounter_Enemy_value: 1
-  there_is_Monstors: 0
+  there_is_Monstors: 1
 --- !u!212 &1166903297
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -50512,7 +50585,7 @@ RectTransform:
   m_Father: {fileID: 456771937}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -51844,11 +51917,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20c23931b879204a939c12d9d019aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackBox: {fileID: 526257318}
-  attackSlider: {fileID: 511821242}
-  sliderSpeed: 0.5
-  fightButton: {fileID: 1929749344}
   currentEnemy: {fileID: -4407746951267158526, guid: c12d88731e07c1e45b09e9f271755b05, type: 3}
+  attackSlider: {fileID: 511821242}
+  fightButton: {fileID: 1929749344}
+  attackBox: {fileID: 526257318}
+  sliderSpeed: 0.5
+  player_Damage: 0
 --- !u!4 &1780399974
 Transform:
   m_ObjectHideFlags: 0
