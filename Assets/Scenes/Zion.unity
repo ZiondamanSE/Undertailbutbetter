@@ -49513,9 +49513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12403feff24efb24c9296903f8276a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: 
   dialogText: {fileID: 497824328}
   typingSpeed: 0.05
+  dialogBox: {fileID: 0}
 --- !u!114 &631929483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49745,9 +49745,20 @@ MonoBehaviour:
     Damage: 10
     DodgeRate: 0
     EnemyName: david
+  - EnemyPrefab: {fileID: 0}
+    Health: 100
+    Damage: 10
+    DodgeRate: 0
+    EnemyName: narkan
+  - EnemyPrefab: {fileID: 0}
+    Health: 100
+    Damage: 10
+    DodgeRate: 0
+    EnemyName: dickhead
   encounterSystemScript: {fileID: 936529468}
   dialogManager: {fileID: 631929482}
   attackSystem: {fileID: 1780399973}
+  enemyIsDead: 0
   spawnpoint: {fileID: 0}
 --- !u!1 &936529466
 GameObject:
@@ -51906,6 +51917,7 @@ MonoBehaviour:
   attackBox: {fileID: 526257318}
   sliderSpeed: 0.8
   player_Damage: 0
+  isAttacking: 0
   feedEnemyInfo: 0
 --- !u!4 &1780399974
 Transform:

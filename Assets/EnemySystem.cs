@@ -20,10 +20,11 @@ public class EnemySystem : MonoBehaviour
     [SerializeField] DialogManager dialogManager;
     [SerializeField] AttackSystem attackSystem;
 
-    public GameObject spawnpoint;
     private int randomIndex;
+    public bool enemyIsDead;
     private bool isDialogDisplaying = false;
-    bool enemyIsDead;
+    private bool hasCalledName = false; // Flag to ensure NameCalling runs only once
+    public GameObject spawnpoint;
 
     void Start()
     {
@@ -55,30 +56,40 @@ public class EnemySystem : MonoBehaviour
 
         randomIndex = Random.Range(0, Enemies.Count);
         EnemyData randomEnemy = Enemies[randomIndex];
-
+            
         Instantiate(randomEnemy.EnemyPrefab, spawnpoint.transform.position, Quaternion.identity);
     }
 
     void Update()
     {
-        if (!isDialogDisplaying && encounterSystemScript.isInBattle)
+        if (attackSystem.isAttacking) // Check if an attack is in progress
+        {
+            dialogManager.HideDialog(); // Hide dialog when attack starts
+            isDialogDisplaying = false; // Ensure no dialog is displayed
+            return;
+        }
+
+        if (!isDialogDisplaying && encounterSystemScript.isInBattle && !hasCalledName)
         {
             NameCalling();
         }
 
         if (attackSystem.feedEnemyInfo)
         {
+            isDialogDisplaying = false;
             DamageToEnemy(attackSystem.player_Damage, EnemyDodgeRate());
             Debug.Log($"Player damage input: {attackSystem.player_Damage} | Enemy dodged: {EnemyDodgeRate()}");
         }
     }
 
+
     void NameCalling()
     {
         if (dialogManager != null)
         {
-            dialogManager.DisplayDialog(Enemies[randomIndex].EnemyName);
+            dialogManager.DisplayDialog($"Yo, big alert! A wild {Enemies[randomIndex].EnemyName} just rolled up lookin' for trouble!");
             isDialogDisplaying = true;
+            hasCalledName = true; // Mark as called
         }
         else
         {
@@ -90,30 +101,58 @@ public class EnemySystem : MonoBehaviour
     {
         if (dialogManager != null)
         {
-            dialogManager.DisplayDialog($"Player dealt: -{damageAmount}");
-            isDialogDisplaying = true;
-            StartCoroutine(Delay());
-            dialogManager.DisplayDialog($"Enemy's health is now: {Enemies[randomIndex].Health}");
+            StartCoroutine(DisplayDamageDialogs(damageAmount));
         }
+    }
+
+    private IEnumerator DisplayDamageDialogs(float damageAmount)
+    {
+        // Display the player's damage
+        dialogManager.DisplayDialog($"Smackdown delivered! Enemy took -{damageAmount}HP, ouch!");
+        isDialogDisplaying = true;
+
+        yield return new WaitForSeconds(4f); // Wait for dialog processing
+
+        // Display the enemy's remaining HP
+        dialogManager.DisplayDialog($"Enemy hangin' on with {Enemies[randomIndex].Health}HP! Keep up the heat!");
+
+        yield return new WaitForSeconds(4f); // Wait for dialog processing
+        isDialogDisplaying = false;
+    }
+
+
+    private IEnumerator EnimeyIsRizzed()
+    {
+        dialogManager.DisplayDialog($"GG! You totally rizzed up {Enemies[randomIndex].EnemyName}. They're down for the count!");
+        yield return new WaitForSeconds(4f);
+        enemyIsDead = true;
     }
 
     bool EnemyDodgeRate()
     {
-        float randomValue = Random.Range(0f, 1f);
-        return randomValue < Enemies[randomIndex].DodgeRate;
+        float monkeymoney = Random.Range(0, Enemies[randomIndex].DodgeRate);
+
+        if (monkeymoney != Enemies[randomIndex].DodgeRate || monkeymoney + 2 >= Enemies[randomIndex].DodgeRate)
+            return false;
+        else
+            return true;
     }
 
     void DamageToEnemy(float damage, bool resistance)
     {
         if (resistance)
+        {
+            dialogManager.DisplayDialog($"Whoa! {Enemies[randomIndex].EnemyName} just matrix-dodged that hit. Slick moves!");
             damage = 0;
+        }
         else
+        {
             Enemies[randomIndex].Health -= damage;
+        }
 
         if (Enemies[randomIndex].Health <= 0)
         {
-            enemyIsDead = true;
-            Debug.Log($"Enemy {Enemies[randomIndex].EnemyName} is dead.");
+            StartCoroutine(EnimeyIsRizzed());
         }
         else
         {
@@ -122,11 +161,4 @@ public class EnemySystem : MonoBehaviour
 
         attackSystem.feedEnemyInfo = false;
     }
-
-    IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(10f);
-        isDialogDisplaying = false;
-    }
 }
-    

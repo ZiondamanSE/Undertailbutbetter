@@ -8,9 +8,9 @@ public class AttackSystem : MonoBehaviour
     public GameObject attackBox;         // The attack box UI panel
 
     public float sliderSpeed = 2f;       // Speed at which the slider moves
-    public int player_Damage = 0;
+    [HideInInspector] public int player_Damage = 0;
     private float hitPosition;
-    private bool isAttacking = false;    // Is the attack currently happening?
+    [HideInInspector] public bool isAttacking = false;    // Is the attack currently happening?
     [HideInInspector] public bool feedEnemyInfo = false;
 
     void Start()

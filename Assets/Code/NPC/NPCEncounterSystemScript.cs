@@ -57,7 +57,7 @@ public class NPCEncounterSystemScript : MonoBehaviour
         spriteRendererIntIcon.color = colorIntIcon;
 
         npcChattingWindow.SetActive(false);
-        if (pm == null)
+        if (pm == null  )
             pm = GetComponent<PlayerMovementScript>();
     }
 
