@@ -49056,8 +49056,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 405, y: 0}
+  m_SizeDelta: {x: 1010, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &497824328
 MonoBehaviour:
@@ -49113,7 +49113,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -49142,7 +49142,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -800.7544, y: 0, z: 10.161865, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -49513,6 +49513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12403feff24efb24c9296903f8276a7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: 
   dialogText: {fileID: 497824328}
   typingSpeed: 0.05
 --- !u!114 &631929483
@@ -49740,31 +49741,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - EnemyPrefab: {fileID: 0}
-    Health: 0
-    Damage: 0
+    Health: 100
+    Damage: 10
     DodgeRate: 0
     EnemyName: david
-  - EnemyPrefab: {fileID: 0}
-    Health: 0
-    Damage: 0
-    DodgeRate: 0
-    EnemyName: sam
-  - EnemyPrefab: {fileID: 0}
-    Health: 0
-    Damage: 0
-    DodgeRate: 0
-    EnemyName: max
-  - EnemyPrefab: {fileID: 0}
-    Health: 0
-    Damage: 0
-    DodgeRate: 0
-    EnemyName: nilson
-  - EnemyPrefab: {fileID: 0}
-    Health: 0
-    Damage: 0
-    DodgeRate: 0
-    EnemyName: jahovas
+  encounterSystemScript: {fileID: 936529468}
   dialogManager: {fileID: 631929482}
+  attackSystem: {fileID: 1780399973}
   spawnpoint: {fileID: 0}
 --- !u!1 &936529466
 GameObject:
@@ -49815,6 +49798,7 @@ MonoBehaviour:
   battleUI: {fileID: 1551875369}
   enemyPrefab: {fileID: 4226146083537407170, guid: c12d88731e07c1e45b09e9f271755b05, type: 3}
   enemySpawnPoint: {fileID: 645426613}
+  isInBattle: 0
 --- !u!114 &936529469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51917,12 +51901,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a20c23931b879204a939c12d9d019aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentEnemy: {fileID: -4407746951267158526, guid: c12d88731e07c1e45b09e9f271755b05, type: 3}
   attackSlider: {fileID: 511821242}
   fightButton: {fileID: 1929749344}
   attackBox: {fileID: 526257318}
-  sliderSpeed: 0.5
+  sliderSpeed: 0.8
   player_Damage: 0
+  feedEnemyInfo: 0
 --- !u!4 &1780399974
 Transform:
   m_ObjectHideFlags: 0
@@ -51968,7 +51952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ness: {fileID: 936529469}
-  pm: {fileID: 0}
+  pm: {fileID: 1166903296}
   textDisplay: {fileID: 1441409079}
   fadeTime: 10
   costomText: Megaman needs you

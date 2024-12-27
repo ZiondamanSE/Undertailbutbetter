@@ -101,7 +101,7 @@ public class NPCEncounterSystemScript : MonoBehaviour
 
     void interactiveAni(int fashing)
     {
-        Debug.Log("fading");
+        //Debug.Log("fading");
         if (colorIntIcon.a != 1f && fashing == 1) // fading in
         {
             //Debug.Log("fading in");

@@ -10,7 +10,7 @@ public class EncounterSystemScript : MonoBehaviour
     public GameObject enemyPrefab;    // The Enemy prefab to spawn (should have a RectTransform)
     public RectTransform enemySpawnPoint; // The spawn point for the enemy (inside the Battle UI)
 
-    private bool isInBattle = false;  // Flag to prevent multiple encounters at once
+    public bool isInBattle = false;  // Flag to prevent multiple encounters at once
 
     void Awake()
     {

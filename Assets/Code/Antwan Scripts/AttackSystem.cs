@@ -3,7 +3,6 @@ using UnityEngine.UI;
 
 public class AttackSystem : MonoBehaviour
 {
-    public EnemyScript currentEnemy;     // The current enemy to attack
     public Slider attackSlider;          // The slider representing the timing bar
     public Button fightButton;           // The Fight button to initiate the attack
     public GameObject attackBox;         // The attack box UI panel
@@ -12,6 +11,7 @@ public class AttackSystem : MonoBehaviour
     public int player_Damage = 0;
     private float hitPosition;
     private bool isAttacking = false;    // Is the attack currently happening?
+    [HideInInspector] public bool feedEnemyInfo = false;
 
     void Start()
     {
@@ -28,7 +28,6 @@ public class AttackSystem : MonoBehaviour
             // Stop attack on space press
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log($"[AttackSystem] Space pressed at attackSlider.value = {attackSlider.value}");
                 StopAttack();
             }
         }
@@ -43,17 +42,12 @@ public class AttackSystem : MonoBehaviour
             return;
         }
 
-        if (currentEnemy == null)
-        {
-            Debug.LogError("[AttackSystem] No enemy assigned to attack!");
-            return;
-        }
-
         Debug.Log("[AttackSystem] Starting attack...");
         fightButton.interactable = false; // Disable the fight button
         attackBox.SetActive(true);       // Show the attack box
         attackSlider.value = 0;          // Reset slider to start
         isAttacking = true;
+        feedEnemyInfo = false;
 
         // Deselect the button to prevent keyboard input from triggering it
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(null);
@@ -66,7 +60,6 @@ public class AttackSystem : MonoBehaviour
         progress = Mathf.Repeat(progress, attackSlider.maxValue);
 
         attackSlider.value = progress;
-        Debug.Log($"[AttackSystem] Moving Slider: {attackSlider.value}");
     }
 
     // Stop the slider and determine the hit outcome
@@ -77,7 +70,6 @@ public class AttackSystem : MonoBehaviour
         fightButton.interactable = true; // Re-enable the fight button
 
         hitPosition = attackSlider.value;
-        Debug.Log($"[AttackSystem] Attack stopped at hitPosition: {hitPosition}");
 
         // Determine the hit zone and assign damage accordingly
         
@@ -112,14 +104,7 @@ public class AttackSystem : MonoBehaviour
 
         Debug.Log($"[AttackSystem] Damage dealt: {player_Damage}");
 
-        // Apply damage to the current enemy
-        if (player_Damage > 0)
-        {
-            currentEnemy.TakeDamage(player_Damage);
-        }
-        else
-        {
-            Debug.Log($"[AttackSystem] {currentEnemy.curentname} dodged the attack!");
-        }
+        feedEnemyInfo = true;
+
     }
 }
