@@ -17,7 +17,7 @@ public class EnemySystem : MonoBehaviour
     public List<EnemyData> Enemies = new List<EnemyData>();
 
     [SerializeField] EncounterSystemScript encounterSystemScript;
-    [SerializeField] DialogManager dialogManager;
+    [SerializeField] BattelChatBox BCB;
     [SerializeField] AttackSystem attackSystem;
 
     private int randomIndex;
@@ -25,6 +25,19 @@ public class EnemySystem : MonoBehaviour
     private bool isDialogDisplaying = false;
     private bool hasCalledName = false; // Flag to ensure NameCalling runs only once
     public GameObject spawnpoint;
+    [HideInInspector] public GameObject enemyUI;
+
+    [Header("Floating Animation Settings")]
+    public float floatAmplitude = 10f; // The height of the floating animation
+    public float floatFrequency = 1f;  // The speed of the floating animation
+
+    [Header("Shake Animation Settings")]
+    public float shakeAmplitude = 5f;  // How far the enemy will shake left and right
+    public float shakeDuration = 0.2f; // Duration of the shake effect
+
+    private Vector2 initialPosition;
+    private bool isShaking = false;
+    private float shakeTimer = 0f;
 
     void Start()
     {
@@ -34,43 +47,63 @@ public class EnemySystem : MonoBehaviour
         if (Enemies == null || Enemies.Count == 0)
         {
             Debug.LogError("No enemies available in the list.");
-            return;
         }
 
-        if (encounterSystemScript == null)
-            encounterSystemScript = GetComponent<EncounterSystemScript>();
-        if (attackSystem == null)
-            attackSystem = GetComponent<AttackSystem>();
+        encounterSystemScript ??= GetComponent<EncounterSystemScript>();
+        attackSystem ??= GetComponent<AttackSystem>();
 
-        if (dialogManager == null)
+        if (BCB == null)
         {
-            Debug.LogError("DialogManager is not assigned.");
-            return;
+            BCB = FindObjectOfType<BattelChatBox>();
+            if (BCB == null)
+            {
+                Debug.LogError("DialogManager is not assigned and could not be found in the scene.");
+            }
         }
 
         if (spawnpoint == null)
         {
             Debug.LogError("Spawnpoint is not assigned.");
-            return;
         }
 
         randomIndex = Random.Range(0, Enemies.Count);
+        Debug.Log($"Random index generated: {randomIndex}"); // Add debug log here
+
         EnemyData randomEnemy = Enemies[randomIndex];
-            
-        Instantiate(randomEnemy.EnemyPrefab, spawnpoint.transform.position, Quaternion.identity);
+        enemyUI = Instantiate(Enemies[randomIndex].EnemyPrefab, spawnpoint.transform);
+
+        // Save the initial position of the enemyUI
+        if (enemyUI != null)
+        {
+            RectTransform rectTransform = enemyUI.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                initialPosition = rectTransform.anchoredPosition;
+            }
+            else
+            {
+                Debug.LogError("EnemyPrefab does not have a RectTransform component.");
+            }
+        }
     }
 
     void Update()
     {
+        AssetAni(); // Call the animation logic in Update
+
+        if (isShaking)
+        {
+            ShakeEffect(); // Apply shake effect
+        }
+
         if (attackSystem.isAttacking) // Check if an attack is in progress
         {
-            dialogManager.HideDialog(); // Hide dialog when attack starts
             isDialogDisplaying = false; // Ensure no dialog is displayed
-            return;
         }
 
         if (!isDialogDisplaying && encounterSystemScript.isInBattle && !hasCalledName)
         {
+            AssetsSpawning();
             NameCalling();
         }
 
@@ -82,12 +115,68 @@ public class EnemySystem : MonoBehaviour
         }
     }
 
+    void AssetAni()
+    {
+        if (enemyUI != null)
+        {
+            RectTransform rectTransform = enemyUI.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                // Calculate the floating effect using a sine wave
+                float offsetY = Mathf.Sin(Time.time * floatFrequency) * floatAmplitude;
+                rectTransform.anchoredPosition = initialPosition + new Vector2(0, offsetY);
+            }
+        }
+    }
+
+    void ShakeEffect()
+    {
+        if (enemyUI != null)
+        {
+            RectTransform rectTransform = enemyUI.GetComponent<RectTransform>();
+            if (rectTransform != null)
+            {
+                // Create the shake effect using a sine wave for smooth wiggle
+                float offsetX = Mathf.Sin(Time.time * 50) * shakeAmplitude; // Fast oscillation for a quick shake
+                rectTransform.anchoredPosition = initialPosition + new Vector2(offsetX, 0);
+
+                // Decrease the shake timer
+                shakeTimer -= Time.deltaTime;
+                if (shakeTimer <= 0f)
+                {
+                    isShaking = false; // Stop shaking after the duration
+                    rectTransform.anchoredPosition = initialPosition; // Reset position to the initial one
+                }
+            }
+        }
+    }
+
+    // Call this method when the enemy is hit
+    public void ApplyShakeFeedback()
+    {
+        isShaking = true;
+        shakeTimer = shakeDuration; // Set the duration for the shake
+    }
+
+    void AssetsSpawning()
+    {
+        // Ensure the prefab has a RectTransform (required for UI elements in Canvas)
+        RectTransform rectTransform = enemyUI.GetComponent<RectTransform>();
+        if (rectTransform != null)
+        {
+            // Set the prefab's position relative to the spawnpoint
+            rectTransform.anchoredPosition = Vector2.zero; // Center within the parent (spawnpoint)
+            rectTransform.localScale = Vector3.one;       // Reset scale to match the UI
+        }
+        else
+            Debug.LogError("EnemyPrefab is not set up with a RectTransform for Canvas use.");
+    }
 
     void NameCalling()
     {
-        if (dialogManager != null)
+        if (BCB != null)
         {
-            dialogManager.DisplayDialog($"Yo, big alert! A wild {Enemies[randomIndex].EnemyName} just rolled up lookin' for trouble!");
+            BCB.Input($"Yo, big alert! A wild {Enemies[randomIndex].EnemyName} just rolled up lookin' for trouble!");
             isDialogDisplaying = true;
             hasCalledName = true; // Mark as called
         }
@@ -99,7 +188,7 @@ public class EnemySystem : MonoBehaviour
 
     void DamageCalling(float damageAmount)
     {
-        if (dialogManager != null)
+        if (BCB != null)
         {
             StartCoroutine(DisplayDamageDialogs(damageAmount));
         }
@@ -108,22 +197,23 @@ public class EnemySystem : MonoBehaviour
     private IEnumerator DisplayDamageDialogs(float damageAmount)
     {
         // Display the player's damage
-        dialogManager.DisplayDialog($"Smackdown delivered! Enemy took -{damageAmount}HP, ouch!");
+        BCB.Input($"Smackdown delivered! Enemy took -{damageAmount}HP, ouch!");
         isDialogDisplaying = true;
 
-        yield return new WaitForSeconds(4f); // Wait for dialog processing
+        yield return new WaitForSeconds(2f); // Wait for dialog processing
 
         // Display the enemy's remaining HP
-        dialogManager.DisplayDialog($"Enemy hangin' on with {Enemies[randomIndex].Health}HP! Keep up the heat!");
+        BCB.Input($"Enemy hangin' on with {Enemies[randomIndex].Health}HP! Keep up the heat!");
 
-        yield return new WaitForSeconds(4f); // Wait for dialog processing
+        yield return new WaitForSeconds(2f); // Wait for dialog processing
         isDialogDisplaying = false;
     }
 
 
     private IEnumerator EnimeyIsRizzed()
     {
-        dialogManager.DisplayDialog($"GG! You totally rizzed up {Enemies[randomIndex].EnemyName}. They're down for the count!");
+        BCB.Input($"GG! You totally rizzed up {Enemies[randomIndex].EnemyName}. They're down for the count!");
+        enemyUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(4f);
         enemyIsDead = true;
     }
@@ -142,12 +232,13 @@ public class EnemySystem : MonoBehaviour
     {
         if (resistance)
         {
-            dialogManager.DisplayDialog($"Whoa! {Enemies[randomIndex].EnemyName} just matrix-dodged that hit. Slick moves!");
+            BCB.Input($"Whoa! {Enemies[randomIndex].EnemyName} just matrix-dodged that hit. Slick moves!");
             damage = 0;
         }
         else
         {
             Enemies[randomIndex].Health -= damage;
+            ApplyShakeFeedback(); // Trigger the shake feedback on hit
         }
 
         if (Enemies[randomIndex].Health <= 0)

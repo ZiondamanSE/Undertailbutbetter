@@ -49472,7 +49472,7 @@ GameObject:
   - component: {fileID: 631929481}
   - component: {fileID: 631929484}
   - component: {fileID: 631929483}
-  - component: {fileID: 631929482}
+  - component: {fileID: 631929485}
   m_Layer: 5
   m_Name: Textbox panel
   m_TagString: Untagged
@@ -49501,21 +49501,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -300}
   m_SizeDelta: {x: -100, y: -800}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &631929482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 631929480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 12403feff24efb24c9296903f8276a7b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogText: {fileID: 497824328}
-  typingSpeed: 0.05
-  dialogBox: {fileID: 0}
 --- !u!114 &631929483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49554,6 +49539,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 631929480}
   m_CullTransparentMesh: 1
+--- !u!114 &631929485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631929480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208f556a4810c9c4fa2e0dff4bc0ddc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogText: {fileID: 497824328}
+  typingSpeed: 0.05
 --- !u!1 &645426612
 GameObject:
   m_ObjectHideFlags: 0
@@ -49740,26 +49739,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Enemies:
-  - EnemyPrefab: {fileID: 0}
+  - EnemyPrefab: {fileID: 7832304015989520389, guid: 8117a7dfa6286ed49a5df8aed47b9c0e, type: 3}
     Health: 100
     Damage: 10
     DodgeRate: 0
     EnemyName: david
-  - EnemyPrefab: {fileID: 0}
+  - EnemyPrefab: {fileID: 5025804393909323130, guid: b10fb77342fc65d48ae61c28df6d606d, type: 3}
     Health: 100
     Damage: 10
     DodgeRate: 0
     EnemyName: narkan
-  - EnemyPrefab: {fileID: 0}
+  - EnemyPrefab: {fileID: 3265448353267363201, guid: 2ef00cdd05e65214096e6b756f7bf63a, type: 3}
     Health: 100
     Damage: 10
     DodgeRate: 0
     EnemyName: dickhead
   encounterSystemScript: {fileID: 936529468}
-  dialogManager: {fileID: 631929482}
+  BCB: {fileID: 631929485}
   attackSystem: {fileID: 1780399973}
   enemyIsDead: 0
-  spawnpoint: {fileID: 0}
+  spawnpoint: {fileID: 1278696352}
+  enemyUI: {fileID: 0}
+  floatAmplitude: 10
+  floatFrequency: 1
+  shakeAmplitude: 150
+  shakeDuration: 3
 --- !u!1 &936529466
 GameObject:
   m_ObjectHideFlags: 0
@@ -49806,6 +49810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pm: {fileID: 1166903296}
+  Es: {fileID: 932310572}
   battleUI: {fileID: 1551875369}
   enemyPrefab: {fileID: 4226146083537407170, guid: c12d88731e07c1e45b09e9f271755b05, type: 3}
   enemySpawnPoint: {fileID: 645426613}
@@ -50471,6 +50476,41 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1278696352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1278696353}
+  m_Layer: 5
+  m_Name: SpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1278696353
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278696352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1551875370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 217}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1311049893
 GameObject:
@@ -51444,6 +51484,7 @@ RectTransform:
   - {fileID: 1796655023}
   - {fileID: 645426613}
   - {fileID: 526257319}
+  - {fileID: 1278696353}
   m_Father: {fileID: 375821532}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

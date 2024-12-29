@@ -5,6 +5,7 @@ using UnityEngine;
 public class EncounterSystemScript : MonoBehaviour
 {
     [SerializeField] private PlayerMovementScript pm;
+    [SerializeField] private EnemySystem Es;
     
     public GameObject battleUI;       // The Battle UI GameObject
     public GameObject enemyPrefab;    // The Enemy prefab to spawn (should have a RectTransform)
@@ -17,17 +18,22 @@ public class EncounterSystemScript : MonoBehaviour
         battleUI.SetActive(false); // Make sure battle UI is hidden initially
         if (pm == null)
             pm = GetComponent<PlayerMovementScript>();
+        if (Es == null)
+            Es = GetComponent<EnemySystem>();
     }
 
     void Update()
     {
         if (pm.user_Found_Random_Enemy && !isInBattle)
             TriggerBattle();
+        if (Es.enemyIsDead)
+            EndBattle();
     }
 
     void TriggerBattle()
     {
         Debug.Log("Battle triggered!");
+        Es.enemyIsDead = false;
 
         // Show the battle UI
         battleUI.SetActive(true);
