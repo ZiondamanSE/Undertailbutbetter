@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] public RawImage levelTrans;
 
     public Color newColor;
+    public int levle;
     public float fadeTime;
     bool cover;
 
@@ -42,7 +43,7 @@ public class LevelManager : MonoBehaviour
             levelTrans.color = newColor;
         }
         else
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(levle);
     }
     void UnCover()
     {

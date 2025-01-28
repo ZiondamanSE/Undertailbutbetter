@@ -45,7 +45,7 @@ public class UI_QestMonitor : MonoBehaviour
     {
         if (useCostom)
         {
-            QestManiger(true, "Speak to the boss");
+            QestManiger(true, costomText);
             if (ness.activeQest)
                 useCostom = false;
         }

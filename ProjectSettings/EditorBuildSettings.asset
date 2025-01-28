@@ -6,9 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Zion.unity
+    path: Assets/Scenes/Start.unity
+    guid: 8892488fc3419594688969488a235e40
+  - enabled: 1
+    path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Anton.unity
-    guid: 88023b11be125b24b97aa9d7a3551a9f
+    path: Assets/Scenes/Level 2.unity
+    guid: d87c051b52d67764f9ea3311cdb29409
+  - enabled: 1
+    path: Assets/Scenes/Zion 2.unity
+    guid: c212ad1081c68df4c836c65ed5bb02a3
+  - enabled: 1
+    path: Assets/Scenes/Credits.unity
+    guid: e28cbc00b9afe0249a0eedf484e6fc40
   m_configObjects: {}

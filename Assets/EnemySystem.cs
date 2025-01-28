@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class EnemyData
@@ -38,6 +39,9 @@ public class EnemySystem : MonoBehaviour
     private Vector2 initialPosition;
     private bool isShaking = false;
     private float shakeTimer = 0f;
+
+
+    public int levle;
 
     void Start()
     {
@@ -215,7 +219,7 @@ public class EnemySystem : MonoBehaviour
         BCB.Input($"GG! You totally rizzed up {Enemies[randomIndex].EnemyName}. They're down for the count!");
         enemyUI.gameObject.SetActive(false);
         yield return new WaitForSeconds(4f);
-        enemyIsDead = true;
+        SceneManager.LoadScene(levle);
     }
 
     bool EnemyDodgeRate()

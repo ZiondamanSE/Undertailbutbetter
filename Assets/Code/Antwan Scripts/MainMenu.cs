@@ -7,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("Start button clicked!");
-        SceneManager.LoadScene("Zion"); // Replace with your scene name
+        SceneManager.LoadScene("Level 1"); // Replace with your scene name
     }
 
     // Method for quitting the game
